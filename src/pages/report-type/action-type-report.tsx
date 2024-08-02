@@ -24,7 +24,7 @@ const ActionTypeReport = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { type: "shop" },
+    defaultValues: { name: "", description: "", type: "shop" },
   });
 
   return (
