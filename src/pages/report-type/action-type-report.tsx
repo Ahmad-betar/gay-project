@@ -24,7 +24,6 @@ const ActionTypeReport = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", description: "", type: "shop" },
   });
 
   return (
@@ -49,18 +48,18 @@ const ActionTypeReport = () => {
           placeholder="Enter Report Type Name"
           control={control}
         />
-        {errors.name?.message && (
+        {/* {errors.name?.message && (
           <p className="text-red-500">{errors.name?.message}</p>
-        )}
+        )} */}
         <TextField
           name="description"
           label="Description"
           placeholder="Enter Report Type Description"
           control={control}
         />
-        {errors.description?.message && (
+        {/* {errors.description?.message && (
           <p className="text-red-500">{errors.description?.message}</p>
-        )}
+        )} */}
       </div>
 
       <div className="flex justify-around m-4">

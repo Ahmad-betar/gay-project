@@ -40,18 +40,18 @@ const ActionCategory = () => {
           placeholder="Enter Job Category Name"
           control={control}
         />
-        {errors.name?.message && (
+        {/* {errors.name?.message && (
           <p className="text-red-500">{errors.name?.message}</p>
-        )}
+        )} */}
         <TextField
           name="description"
           label="Description"
           placeholder="Enter Job Category Description"
           control={control}
         />
-        {errors.description?.message && (
+        {/* {errors.description?.message && (
           <p className="text-red-500">{errors.description?.message}</p>
-        )}
+        )} */}
       </div>
       <div className="flex justify-end mt-4">
         <Button className="w-full">Submit</Button>
