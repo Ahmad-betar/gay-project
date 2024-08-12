@@ -10,7 +10,7 @@ import { FaSun } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ Open }: { Open: boolean }) => {
+const Header = ({  }: { Open: boolean }) => {
   const { setTheme, theme } = useTheme();
   const navigate = useNavigate();
 

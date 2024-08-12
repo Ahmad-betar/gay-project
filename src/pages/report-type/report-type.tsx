@@ -3,6 +3,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -15,13 +16,15 @@ import NoData from "@/components/ui/no-data";
 import { cn } from "@/lib/utils";
 import { Pencil, Plus, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const ReportType = () => {
-  const { data, isLoading } = REPORTED_TYPE_QUERIES.GET_SHOP_CATEGORIES_QUERY();
+  const { data, isLoading } = REPORTED_TYPE_QUERIES.GET_REPORTED_TYPE_QUERY();
+  const { mutate } = REPORTED_TYPE_QUERIES.DELETE_REPORTED_TYPE_QUERY();
 
   return (
     <>
-      <div className="flex justify-between p-4">
+      <div className="flex justify-between p-4 max-sm:flex-col max-sm:gap-4">
         <p className="text-primary text-4xl">Report Type</p>
         <Link
           to={"/add-report-type"}
@@ -36,7 +39,7 @@ const ReportType = () => {
       {isLoading && <Loading />}
       {!isLoading && data?.reportTypes.length === 0 && <NoData />}
       {!isLoading && data?.reportTypes.length !== 0 && (
-        <div className="grid grid-cols-4 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.reportTypes.map((report) => {
             return (
               <Card className="pt-2 flex flex-col justify-between">
@@ -46,6 +49,15 @@ const ReportType = () => {
                   </span>
                   <span>
                     <p>Description : {report.description}</p>
+                  </span>
+                  <span>
+                    <p>Type : {report.reportedType}</p>
+                  </span>
+                  <span>
+                    <p>Created At : {report.createdAt}</p>
+                  </span>
+                  <span>
+                    <p>Updated At : {report.updatedAt}</p>
                   </span>
                 </CardContent>
                 <CardFooter className="flex items-end justify-end gap-4">
@@ -68,11 +80,26 @@ const ReportType = () => {
                           This action cannot be undone. This will permanently
                           delete your your data from our servers.
                         </DialogDescription>
-                        <DialogFooter>
-                          <Button variant={"outline"}>Cancel</Button>
-                          <Button className="bg-red-500 hover:bg-red-500">
-                            Yes
-                          </Button>
+                        <DialogFooter className="gap-2">
+                          <DialogClose className="w-full h-full">
+                            <Button className="w-full" variant={"outline"}>
+                              Cancel
+                            </Button>
+                          </DialogClose>
+                          <DialogClose className="w-full h-full">
+                            <Button
+                              onClick={() => {
+                                mutate(report._id, {
+                                  onSuccess: (data) => {
+                                    toast(data.message);
+                                  },
+                                });
+                              }}
+                              className="bg-red-500 hover:bg-red-500 w-full"
+                            >
+                              Yes
+                            </Button>
+                          </DialogClose>
                         </DialogFooter>
                       </DialogHeader>
                     </DialogContent>

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   ADD_JOB_CATEGORY_API,
   DELETE_JOB_CATEGORIES_API,
@@ -7,9 +7,14 @@ import {
 } from "./job-category-api";
 
 const ADD_JOB_CATEGORY_QUERY = () => {
+  const queryClient = useQueryClient();
+
   const queryResult = useMutation({
     mutationKey: ["add-job-category"],
     mutationFn: ADD_JOB_CATEGORY_API,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get-job-category"]);
+    },
   });
   return queryResult;
 };
@@ -26,17 +31,27 @@ const GET_JOB_CATEGORIES_QUERY = () => {
 };
 
 const EDIT_JOB_CATEGORY_QUERY = () => {
+  const queryClient = useQueryClient();
+
   const queryResult = useMutation({
     mutationKey: ["add-job-category"],
     mutationFn: EDIT_JOB_CATEGORY_API,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get-job-category"]);
+    },
   });
   return queryResult;
 };
 
 const DELETE_JOB_CATEGORY_QUERY = () => {
+  const queryClient = useQueryClient();
+
   const queryResult = useMutation({
     mutationKey: ["add-job-category"],
     mutationFn: DELETE_JOB_CATEGORIES_API,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get-job-category"]);
+    },
   });
   return queryResult;
 };

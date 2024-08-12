@@ -40,9 +40,9 @@ const Login = () => {
           toast("Logged In Successfully");
           navigate("/");
         },
-        onError: ({ message }) => {
-          toast(message);
-        },
+        // onError: ({ message }) => {
+        //   toast(message);
+        // },
       }
     );
   };

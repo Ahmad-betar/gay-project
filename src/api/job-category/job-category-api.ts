@@ -15,7 +15,7 @@ export const ADD_JOB_CATEGORY_API = async ({
   description: string;
 }) => {
   const { data } = await ApiInstances.post<ADD_JOB_CATEGORY_TYPE>(
-    controller.job_categor.ADD_JOB_CATEGORY,
+    "admin/" + controller.job_categor.ADD_JOB_CATEGORY,
     {
       name,
       description,
@@ -41,7 +41,7 @@ export const EDIT_JOB_CATEGORY_API = async ({
   description: string;
 }) => {
   const { data } = await ApiInstances.put<EDIT_JOB_CATEGORY_TYPE>(
-    controller.job_categor.EDIT_JOB_CATEGORY + `/${id}`,
+    "admin/" + controller.job_categor.EDIT_JOB_CATEGORY + `/${id}`,
     {
       name,
       description,
@@ -51,8 +51,9 @@ export const EDIT_JOB_CATEGORY_API = async ({
 };
 
 export const DELETE_JOB_CATEGORIES_API = async (id: string) => {
+  
   const { data } = await ApiInstances.delete<DELETE_JOB_CATEGORY_TYPE>(
-    controller.job_categor.DELETE_JOB_CATEGORY + `/${id}`
+    "admin/" + controller.job_categor.DELETE_JOB_CATEGORY + `/${id}`
   );
   return data;
 };

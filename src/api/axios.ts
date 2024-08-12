@@ -8,7 +8,7 @@ const ApiInstances = axios.create({
 
 ApiInstances.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  const lang = localStorage.getItem("lang") || "en";
+  // const lang = localStorage.getItem("lang") || "en";
 
   config.headers.Authorization = token ? `Bearer ${token}` : "";
   // config.headers["Accept-Language"] = lang;

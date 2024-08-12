@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CornerUpLeft } from "lucide-react";
+import { SHOP_CATEGORY_QUERIES } from "@/api/shop-category/shop-category-query";
+import { toast } from "sonner";
 
 const schema = z.object({
   name: z.string({ message: "This field is required" }),
@@ -17,13 +19,44 @@ const ActionShopCategory = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {},
   } = useForm({
     resolver: zodResolver(schema),
   });
 
+  const { mutate: addshop, isLoading: isAdding } =
+    SHOP_CATEGORY_QUERIES.ADD_SHOP_CATEGORY_QUERY();
+
+  const { mutate: editshop, isLoading: isEditing } =
+    SHOP_CATEGORY_QUERIES.EDIT_SHOP_CATEGORY_QUERY();
+
+  const submitHandler = (data: any) => {
+    id
+      ? editshop(
+          { id, ...data },
+          {
+            onSuccess: (data) => {
+              toast(data.message);
+              navigate(-1);
+            },
+            onError: () => {
+              toast(data.message);
+            },
+          }
+        )
+      : addshop(data, {
+          onSuccess: (data) => {
+            toast(data.message);
+            navigate(-1);
+          },
+          onError: () => {
+            toast(data.message);
+          },
+        });
+  };
+
   return (
-    <form onSubmit={handleSubmit(() => {})}>
+    <form onSubmit={handleSubmit(submitHandler)}>
       <div className="flex justify-between p-4 mb-4">
         <p className="text-primary text-4xl flex gap-1">
           <Button variant={"ghost"} onClick={() => navigate(-1)}>
@@ -54,7 +87,9 @@ const ActionShopCategory = () => {
         )} */}
       </div>
       <div className="flex justify-end mt-4">
-        <Button className="w-full">Submit</Button>
+        <Button disabled={isAdding || isEditing} className="w-full">
+          Submit
+        </Button>
       </div>
     </form>
   );

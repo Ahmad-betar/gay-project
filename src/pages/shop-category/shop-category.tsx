@@ -3,6 +3,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -15,14 +16,15 @@ import NoData from "@/components/ui/no-data";
 import { cn } from "@/lib/utils";
 import { Pencil, Plus, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const ShopCategory = () => {
   const { data, isLoading } = SHOP_CATEGORY_QUERIES.GET_SHOP_CATEGORIES_QUERY();
-  console.log(data);
+  const { mutate } = SHOP_CATEGORY_QUERIES.DELETE_SHOP_CATEGORY_QUERY();
 
   return (
     <>
-      <div className="flex justify-between p-4">
+      <div className="flex justify-between p-4 max-sm:flex-col max-sm:gap-4">
         <p className="text-primary text-4xl">Shop Category</p>
         <Link
           to={"/add-shop-category"}
@@ -37,7 +39,7 @@ const ShopCategory = () => {
       {isLoading && <Loading />}
       {!isLoading && data?.shopCategories.length === 0 && <NoData />}
       {!isLoading && data?.shopCategories.length !== 0 && (
-        <div className="grid grid-cols-4 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.shopCategories.map((category) => {
             return (
               <Card className="pt-2 flex flex-col justify-between">
@@ -52,7 +54,7 @@ const ShopCategory = () => {
                 <CardFooter className="flex items-end justify-end gap-4">
                   <Link
                     className={buttonVariants({ variant: "outline" })}
-                    to={"/edit-shop-category/" + 2}
+                    to={"/edit-shop-category/" + category._id}
                   >
                     <Pencil className="p-1" />
                   </Link>
@@ -69,11 +71,26 @@ const ShopCategory = () => {
                           This action cannot be undone. This will permanently
                           delete your your data from our servers.
                         </DialogDescription>
-                        <DialogFooter>
-                          <Button variant={"outline"}>Cancel</Button>
-                          <Button className="bg-red-500 hover:bg-red-500">
-                            Yes
-                          </Button>
+                        <DialogFooter className="gap-2">
+                          <DialogClose className="w-full h-full">
+                            <Button variant={"outline"} className="w-full">
+                              Cancel
+                            </Button>
+                          </DialogClose>
+                          <DialogClose className="w-full h-full">
+                            <Button
+                              onClick={() => {
+                                mutate(category._id, {
+                                  onSuccess: (data) => {
+                                    toast(data.message);
+                                  },
+                                });
+                              }}
+                              className="bg-red-500 hover:bg-red-500 w-full"
+                            >
+                              Yes
+                            </Button>
+                          </DialogClose>
                         </DialogFooter>
                       </DialogHeader>
                     </DialogContent>

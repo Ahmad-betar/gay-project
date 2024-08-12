@@ -14,10 +14,10 @@ export const ADD_REPORT_TYPE_API = async ({
 }: {
   name: string;
   description: string;
-  reportedType: "Worker" | "Shop";
+  reportedType: string;
 }) => {
   const { data } = await ApiInstances.post<ADD_REPORT_TYPE_TYPE>(
-    controller.report_type.ADD_REPORT_TYPE,
+    "admin/" + controller.report_type.ADD_REPORT_TYPE,
     {
       name,
       description,
@@ -29,7 +29,7 @@ export const ADD_REPORT_TYPE_API = async ({
 
 export const GET_REPORT_TYPE_API = async () => {
   const { data } = await ApiInstances.get<GET_REPORT_TYPE_TYPE>(
-    controller.report_type.GET_REPORT_TYPE
+    "admin/" + controller.report_type.GET_REPORT_TYPE
   );
   return data;
 };
@@ -46,7 +46,7 @@ export const EDIT_REPORT_TYPE_API = async ({
   reportedType: "Worker" | "Shop";
 }) => {
   const { data } = await ApiInstances.put<EDIT_REPORT_TYPE_TYPE>(
-    controller.report_type.EDIT_REPORT_TYPE + `/${id}`,
+    "admin/" + controller.report_type.EDIT_REPORT_TYPE + `/${id}`,
     {
       name,
       description,
@@ -58,7 +58,7 @@ export const EDIT_REPORT_TYPE_API = async ({
 
 export const DELETE_REPORT_TYPE_API = async (id: string) => {
   const { data } = await ApiInstances.delete<DELETE_REPORT_TYPE_TYPE>(
-    controller.report_type.DELETE_REPORT_TYPE + `/${id}`
+    "admin/" + controller.report_type.DELETE_REPORT_TYPE + `/${id}`
   );
   return data;
 };

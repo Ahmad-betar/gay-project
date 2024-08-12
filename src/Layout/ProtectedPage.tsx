@@ -1,12 +1,12 @@
-import { Navigate, Outlet } from "react-router-dom";
+import {  Navigate, Outlet } from "react-router-dom";
 import Layout from "./Layout";
 
 const ProtectedPage = () => {
   const token = localStorage.getItem("token");
 
-//   if (!token) {
-//     return <Navigate to="/login" />;
-//   }
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>

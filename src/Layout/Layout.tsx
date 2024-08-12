@@ -3,7 +3,7 @@ import SideBar from "./SideBar";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+const Layout = ({  }: { children: ReactNode }) => {
   const [Open, setOpen] = useState<boolean>(false);
 
   const openHandler = () => {

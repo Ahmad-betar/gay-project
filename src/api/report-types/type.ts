@@ -9,6 +9,8 @@ export type GET_REPORT_TYPE_TYPE = {
     name: string;
     description: string;
     reportedType: "Worker" | "Shop";
+    createdAt: string;
+    updatedAt: string;
   }[];
 };
 

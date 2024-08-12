@@ -7,6 +7,8 @@ import * as z from "zod";
 import { CornerUpLeft } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { REPORTED_TYPE_QUERIES } from "@/api/report-types/report-types-query";
 
 const schema = z.object({
   name: z.string({ message: "This field is required" }),
@@ -17,21 +19,54 @@ const schema = z.object({
 const ActionTypeReport = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const { mutate: addReport, isLoading: isAdding } =
+    REPORTED_TYPE_QUERIES.ADD_REPORTED_TYPE_QUERY();
+
+  const { mutate: editReport, isLoading: isEditing } =
+    REPORTED_TYPE_QUERIES.EDIT_REPORTED_TYPE_QUERY();
+
   const {
     control,
     handleSubmit,
     register,
-    formState: { errors },
+    formState: {},
   } = useForm({
     resolver: zodResolver(schema),
   });
 
+  const submitHandler = (data: any) => {
+    console.log(data);
+
+    id
+      ? editReport(
+          { id, ...data, reportedType: data.type },
+          {
+            onSuccess: (data) => {
+              toast(data.message);
+              navigate(-1);
+            },
+            onError: () => {
+              toast(data.message);
+            },
+          }
+        )
+      : addReport(
+          { ...data, reportedType: data.type },
+          {
+            onSuccess: (data) => {
+              toast(data.message);
+              navigate(-1);
+            },
+            onError: () => {
+              toast(data.message);
+            },
+          }
+        );
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit((data) => {
-        console.log(data, "test");
-      })}
-    >
+    <form onSubmit={handleSubmit(submitHandler)}>
       <div className="flex justify-between p-4 mb-4">
         <p className="text-primary text-4xl flex gap-1">
           <Button variant={"ghost"} onClick={() => navigate(-1)}>
@@ -76,7 +111,7 @@ const ActionTypeReport = () => {
           <Input
             className="mb-2"
             type="radio"
-            value="dor"
+            value="worker"
             {...register("type")}
           />
           Worker
@@ -84,7 +119,11 @@ const ActionTypeReport = () => {
       </div>
 
       <div className="flex justify-end mt-4">
-        <Button className="w-full" type="submit">
+        <Button
+          disabled={isAdding || isEditing}
+          type="submit"
+          className="w-full"
+        >
           Submit
         </Button>
       </div>

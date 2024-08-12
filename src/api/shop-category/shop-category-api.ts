@@ -15,7 +15,7 @@ export const ADD_SHOP_CATEGORY_API = async ({
   description: string;
 }) => {
   const { data } = await ApiInstances.post<ADD_SHOP_CATEGORY_TYPE>(
-    controller.shop_category.ADD_SHOP_CATEGORY,
+    "admin/" + controller.shop_category.ADD_SHOP_CATEGORY,
     {
       name,
       description,
@@ -41,7 +41,7 @@ export const EDIT_SHOP_CATEGORY_API = async ({
   description: string;
 }) => {
   const { data } = await ApiInstances.put<EDIT_SHOP_CATEGORY_TYPE>(
-    controller.shop_category.EDIT_SHOP_CATEGORY + `/${id}`,
+    "admin/" + controller.shop_category.EDIT_SHOP_CATEGORY + `/${id}`,
     {
       name,
       description,
@@ -52,7 +52,7 @@ export const EDIT_SHOP_CATEGORY_API = async ({
 
 export const DELETE_SHOP_CATEGORY_API = async (id: string) => {
   const { data } = await ApiInstances.delete<DELETE_SHOP_CATEGORY_TYPE>(
-    controller.shop_category.DELETE_SHOP_CATEGORY + `/${id}`
+    "admin/" + controller.shop_category.DELETE_SHOP_CATEGORY + `/${id}`
   );
   return data;
 };

@@ -17,10 +17,10 @@ const shop_category = {
 };
 
 const report_type = {
-  ADD_REPORT_TYPE: "admin/reportType",
-  GET_REPORT_TYPE: "admin/reportTypes",
-  EDIT_REPORT_TYPE: "admin/reportType",
-  DELETE_REPORT_TYPE: "admin/reportType",
+  ADD_REPORT_TYPE: "reportType",
+  GET_REPORT_TYPE: "reportTypes",
+  EDIT_REPORT_TYPE: "reportType",
+  DELETE_REPORT_TYPE: "reportType",
 };
 
 export const controller = {

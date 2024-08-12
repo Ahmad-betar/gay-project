@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   ADD_SHOP_CATEGORY_API,
   DELETE_SHOP_CATEGORY_API,
@@ -7,9 +7,14 @@ import {
 } from "./shop-category-api";
 
 const ADD_SHOP_CATEGORY_QUERY = () => {
+  const queryClient = useQueryClient();
+
   const queryResult = useMutation({
     mutationKey: ["add-shop-category"],
     mutationFn: ADD_SHOP_CATEGORY_API,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get-shop-category"]);
+    },
   });
   return queryResult;
 };
@@ -26,17 +31,27 @@ const GET_SHOP_CATEGORIES_QUERY = () => {
 };
 
 const EDIT_SHOP_CATEGORY_QUERY = () => {
+  const queryClient = useQueryClient();
+
   const queryResult = useMutation({
     mutationKey: ["edit-shop-category"],
     mutationFn: EDIT_SHOP_CATEGORY_API,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get-shop-category"]);
+    },
   });
   return queryResult;
 };
 
 const DELETE_SHOP_CATEGORY_QUERY = () => {
+  const queryClient = useQueryClient();
+
   const queryResult = useMutation({
     mutationKey: ["delete-shop-category"],
     mutationFn: DELETE_SHOP_CATEGORY_API,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get-shop-category"]);
+    },
   });
   return queryResult;
 };
